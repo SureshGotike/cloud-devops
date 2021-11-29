@@ -1,0 +1,43 @@
+version: '3'
+services:
+  reportsmanagement:
+    image: uridentity/uridentity_images:reportsmanagement_latest
+    container_name: reportsmanagement
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,swagger
+        - SPRING_CLOUD_CONSUL_HOST=consul
+        - SPRING_CLOUD_CONSUL_PORT=8500
+       # - SPRING_CLOUD_CONFIG_URI=http://configserver-internal.epicidentity.net:8888
+        - SPRING_DATASOURCE_URL=jdbc:mariadb://database-dev.myidentity.net:3306/reportsmanagement
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=trust@myadmin123
+        - APP_DATASOURCE_REPORTSMANAGEMENT_URL=jdbc:mariadb://database-dev.myidentity.net:3306/reportsmanagement
+        - APP_DATASOURCE_REPORTSMANAGEMENT_USERNAME=root
+        - APP_DATASOURCE_REPORTSMANAGEMENT_PASSWORD=trust@myadmin123
+        - APP_DATASOURCE_USERMANAGEMENT_URL=jdbc:mariadb://database-dev.myidentity.net:3306/usermanagement
+        - APP_DATASOURCE_USERMANAGEMENT_USERNAME=root
+        - APP_DATASOURCE_USERMANAGEMENT_PASSWORD=trust@myadmin123
+        - APP_DATASOURCE_GATEWAY_URL=jdbc:mariadb://database-dev.myidentity.net:3306/gateway
+        - APP_DATASOURCE_GATEWAY_USERNAME=root
+        - APP_DATASOURCE_GATEWAY_PASSWORD=trust@myadmin123
+        - APP_DATASOURCE_APDU_URL=jdbc:mariadb://database-dev.myidentity.net:3306/apdu
+        - APP_DATASOURCE_APDU_USERNAME=root
+        - APP_DATASOURCE_APDU_PASSWORD=trust@myadmin123
+        - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+    ports:
+        - 10010:10010
+    volumes:
+         - /opt/myidentity/data/reportscontent/uridentity-dev/templates/jaspertemplates:/opt/myidentity/data/reportscontent/uridentity-dev/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/uridentity-dev/reportsoutput/online:/opt/myidentity/data/reportscontent/uridentity-dev/reportsoutput/online
+         - /opt/myidentity/data/reportscontent/preview/templates/jaspertemplates:/opt/myidentity/data/reportscontent/preview/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/preview/reportsoutput/online:/opt/myidentity/data/reportscontent/preview/reportsoutput/online
+         - /opt/myidentity/data/reportscontent/mts/templates/jaspertemplates:/opt/myidentity/data/reportscontent/mts/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/mts/reportsoutput/online:/opt/myidentity/data/reportscontent/mts/reportsoutput/online
+         - /opt/myidentity/data/reportscontent/ine/templates/jaspertemplates:/opt/myidentity/data/reportscontent/ine/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/ine/reportsoutput/online:/opt/myidentity/data/reportscontent/ine/reportsoutput/online
+         - /opt/myidentity/data/reportscontent/incadence/templates/jaspertemplates:/opt/myidentity/data/reportscontent/incadence/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/incadence/reportsoutput/online:/opt/myidentity/data/reportscontent/incadence/reportsoutput/online
+#        - /var/lib/docker/volumes/data-volume/
+         - /opt/myidentity/data/reportscontent/meidmts/templates/jaspertemplates:/opt/myidentity/data/reportscontent/meidmts/templates/jaspertemplates
+         - /opt/myidentity/data/reportscontent/meidmts/reportsoutput/online:/opt/myidentity/data/reportscontent/meidmts/reportsoutput/online
+

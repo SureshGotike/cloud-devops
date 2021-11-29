@@ -1,0 +1,30 @@
+filebeat.inputs:
+- type: container
+  paths:
+    - '/var/lib/docker/containers/*/*.log'
+
+processors:
+- add_docker_metadata:
+    host: "unix:///var/run/docker.sock"
+
+- decode_json_fields:
+   fields: ["log"]
+   target: "json"
+   overwrite_keys: true
+
+filebeat.modules:
+  - module: logstash
+    enabled: true
+
+filebeat.modules:
+  - module: elasticsearch
+    enabled: true
+
+setup.ilm.enabled: false
+logging.json: true
+output.logstash:
+   hosts: ["54.166.220.189:5044"]
+   index: "dev"
+
+elasticsearch.username: elastic
+elasticsearch.password: "trust@myadmin123"

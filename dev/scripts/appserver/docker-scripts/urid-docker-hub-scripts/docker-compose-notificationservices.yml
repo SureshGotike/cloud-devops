@@ -1,0 +1,23 @@
+version: '3'
+services:
+  notificationservice:
+    image: uridentity/uridentity_images:notificationservice_latest
+    container_name: notificationservice
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,swagger
+        - SPRING_CLOUD_CONSUL_HOST=consul
+        - SPRING_CLOUD_CONSUL_PORT=8500
+       # - SPRING_CLOUD_CONFIG_URI=http://configserver-internal.epicidentity.net:8888
+        - SPRING_CLOUD_CONFIG_ENABLED=true
+        - SPRING_CLOUD_CONFIG_FAILFAST=true
+        - SPRING_DATASOURCE_URL=jdbc:mariadb://database-dev.myidentity.net:3306/notificationservice
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=trust@myadmin123
+        - APP_DATASOURCE_NOTIFICATIONSERVICE_URL=jdbc:mariadb://database-dev.myidentity.net:3306/notificationservice
+        - APP_DATASOURCE_NOTIFICATIONSERVICE_USERNAME=root
+        - APP_DATASOURCE_NOTIFICATIONSERVICE_PASSWORD=trust@miadmin123
+        - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+    ports:
+        - 10008:10008
+#    volumes:
+#        - /var/lib/docker/volumes/data-volume/

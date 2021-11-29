@@ -1,0 +1,99 @@
+zuul: # those values must be configured depending on the application specific needs
+    sensitive-headers: Cookie,Set-Cookie #see https://github.com/spring-cloud/spring-cloud-netflix/issues/3126
+    host:
+        connect-timeout-millis: 60000
+        socket-timeout-millis: 60000
+        max-total-connections: 1000
+        max-per-route-connections: 100    
+#    prefix: /services    This should not be used in our application as we do have default prefix to our urls
+    semaphore:
+        max-semaphores: 500
+    routes:
+        caservice:
+            path: /caservice/**
+            url: http://localhost:10002
+        usermanagement:
+            path: /usermanagement/**
+            url: http://localhost:10003
+        apdu:
+            path: /apdu/**
+            url: http://localhost:10004
+        hsm:
+            path: /hsm/**
+            url: http://localhost:10005
+        biometricverification:
+            path: /biometricverification/**
+            url: http://localhost:10006
+        reportsmanagement:
+            path: /reportsmanagement/**
+            url: http://localhost:10010
+        notificationservice:
+            path: /notificationservice/**
+            url: http://localhost:1008
+    ignoredServices: 'consul,gateway,apigateway'
+
+spring:
+ security:
+        oauth2:
+            client:
+                registration:
+                    uridentity-dev:
+                        client-id: web_app
+                        client-name: web_app
+                        #client-secret: 9faa4aaa-39fe-43bc-8d4f-ec17292df641
+                        client-secret: b5222343-3c60-438f-bf79-d1220d460cbe
+                        provider: uridentity-dev
+                        authorization-grant-type: authorization_code
+                        scope: openid, profile
+                    meidmts-dev:
+                        client-id: web_app
+                        client-name: web_app
+                        client-secret: 9a2c6c0b-fdb6-4fcd-a6cb-ebcb19963ab8
+                        provider: meidmts-dev
+                        authorization-grant-type: authorization_code
+                        scope: openid, profile
+                  #  preview:
+                  #      client-id: web_app
+                  #      client-name: web_app
+                  #      #client-secret: 9faa4aaa-39fe-43bc-8d4f-ec17292df641
+                  #      client-secret: afd430a6-9610-474b-8a9c-70a6d527ff68
+                  #      provider: preview
+                  #      authorization-grant-type: authorization_code
+                  #      scope: openid, profile
+                  #      #redirect-uri: "https://preview.myidentity.net/login/oauth2/code/{registrationId}"
+                provider:
+                    uridentity-dev:
+                        authorization-uri: ${kc.realm1-url}/protocol/openid-connect/auth
+                        issuer-uri: ${kc.realm1-url}
+                        jwk-set-uri: ${kc.realm1-url}/protocol/openid-connect/certs
+                        token-uri: ${kc.realm1-url}/protocol/openid-connect/token
+                        user-name-attribute: preferred_username
+                    meidmts-dev:
+                        authorization-uri: ${kc.realm6-url}/protocol/openid-connect/auth
+                        issuer-uri: ${kc.realm6-url}
+                        jwk-set-uri: ${kc.realm6-url}/protocol/openid-connect/certs
+                        token-uri: ${kc.realm6-url}/protocol/openid-connect/token
+                        user-name-attribute: preferred_username
+                  #  preview:
+                  #      authorization-uri: ${kc.realm4-url}/protocol/openid-connect/auth
+                  #      issuer-uri: ${kc.realm4-url}
+                  #      jwk-set-uri: ${kc.realm4-url}/protocol/openid-connect/certs
+                  #      token-uri: ${kc.realm4-url}/protocol/openid-connect/token
+                  #      user-name-attribute: preferred_username
+
+kc:
+    base-url: https://iam-dev.myidentity.net:8443/auth
+    realm1: uridentity-dev
+    realm2: ine
+    realm3: demo
+    realm4: preview
+    realm5: idemia
+    realm6: meidmts-dev
+    realm7: incadence
+    realm1-url: ${kc.base-url}/realms/${kc.realm1}
+    realm2-url: ${kc.base-url}/realms/${kc.realm2}
+    realm3-url: ${kc.base-url}/realms/${kc.realm3}
+    realm4-url: ${kc.base-url}/realms/${kc.realm4}
+    realm5-url: ${kc.base-url}/realms/${kc.realm5}
+    realm6-url: ${kc.base-url}/realms/${kc.realm6}
+    realm7-url: ${kc.base-url}/realms/${kc.realm7}

@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="enrollment" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="../maintemplate" whenResourceMissingType="Key" isIgnorePagination="true" uuid="b46c029e-32f5-433f-9cd0-147df87069c4">
+	<property name="ireport.zoom" value="3.4522712143931047"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="dataset1" uuid="f437b82c-e6a7-4d0b-9368-d6e430b50ada"/>
+	<subDataset name="Table Dataset 1" uuid="b8585c87-936f-4aca-a3b9-a8b7db237c70"/>
+	<parameter name="startDate" class="java.sql.Timestamp" isForPrompting="false">
+		<parameterDescription><![CDATA[Start date for the query]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endDate" class="java.sql.Timestamp" isForPrompting="false">
+		<parameterDescription><![CDATA["2020-01-13 05:14:30"]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportId" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="generatedUser" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="status" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="deviceType" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="generatedUserOrg" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[user organization id]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportGenerationStartTime" class="java.sql.Timestamp" isForPrompting="false"/>
+	<parameter name="cardType" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="organizationName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="organizationId" class="java.lang.Long" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	udev.user_id AS userId,
+	udev.username AS username,
+	udev.full_name AS fullName,
+	udev.status AS status,
+	udev.`organization_id` AS organizationId,
+	udev.organization_name AS organizationName,
+	udev.issued_date AS issuedDate,
+	udev.issued_by AS issuedBy,
+	udev.issued_status AS issuedStatus,
+	udev.issued_status_reason AS issuedStatusReason,
+	udev.type AS type,
+	udev.unique_identifier AS uniqueIdentifier,
+	udev.card_type AS cardType,
+	udev.device_issued_name AS deviceIssuedName
+FROM
+	v_issuance_details udev
+WHERE
+CASE WHEN $P{organizationName} IS NULL THEN true ELSE udev.`organization_name` = $P{organizationName} END
+AND CASE WHEN $P{organizationId} IS NULL THEN true ELSE udev.`organization_id` = $P{organizationId} END
+AND CASE WHEN $P{startDate} IS NULL THEN true ELSE udev.`issued_date` BETWEEN $P{startDate} AND $P{endDate} END
+AND CASE WHEN $P{userName} IS NULL THEN true ELSE udev.`username` = $P{userName} END
+AND CASE WHEN $P{status} IS NULL THEN true ELSE udev.`status` = $P{status} END
+AND CASE WHEN $P{deviceType} IS NULL THEN true ELSE udev.`type` = $P{deviceType} END
+AND CASE WHEN $P{cardType} IS NULL THEN true ELSE udev.`card_type` = $P{cardType} END]]>
+	</queryString>
+	<field name="userId" class="java.lang.Long"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="organizationId" class="java.lang.Long"/>
+	<field name="organizationName" class="java.lang.String"/>
+	<field name="issuedDate" class="java.sql.Timestamp"/>
+	<field name="issuedBy" class="java.lang.String"/>
+	<field name="issuedStatus" class="java.lang.String"/>
+	<field name="issuedStatusReason" class="java.lang.String"/>
+	<field name="type" class="java.lang.String"/>
+	<field name="uniqueIdentifier" class="java.lang.String"/>
+	<field name="cardType" class="java.lang.String"/>
+	<field name="deviceIssuedName" class="java.lang.String"/>
+	<variable name="CurrentDateTimeVar" class="java.util.Date">
+		<variableExpression><![CDATA[new Date()]]></variableExpression>
+	</variable>
+	<variable name="generatedEndTime" class="java.lang.String" resetType="None" incrementType="Report">
+		<variableExpression><![CDATA[new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS").format(new Date())]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="60" width="556" height="1" forecolor="#CCCCCC" uuid="2bab3072-70f5-4b38-9962-61fe3fb5deef"/>
+			</line>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="45" width="400" height="15" backcolor="#FFFFFF" uuid="fbf4994c-6c69-4f85-b166-4c1793660c42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="400" height="15" uuid="267557a5-6cc5-4f6f-a725-0d6fe4c767a7"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{complianceReports}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="400" height="15" uuid="70df5012-fa1e-4718-bb42-405165ae4478"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{userIssuanceDetails}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="30" width="400" height="15" uuid="db31dadc-ff0d-4890-b28a-e22f7c1f7fc6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{issuanceDescription}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="101" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="100" y="40" width="170" height="20" backcolor="#D2FFE5" uuid="eb83ca8e-9c93-4970-b3d0-ca4226ae6d00"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS").format($P{startDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="100" y="60" width="170" height="20" backcolor="#D2FFE5" uuid="fc9c629b-551a-47e5-b27c-1d178db98007"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS").format($P{endDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="374" y="0" width="181" height="20" backcolor="#D2FFE5" uuid="126367a2-752f-4e97-909b-7a96838bae78"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS").format($P{reportGenerationStartTime})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="100" width="556" height="1" forecolor="#CCCCCC" uuid="4555562a-d4a8-47d6-b3ec-d6ff29467275"/>
+			</line>
+			<textField>
+				<reportElement mode="Opaque" x="100" y="20" width="170" height="20" backcolor="#D2FFE5" uuid="37a3ff58-081e-47f9-916e-4cc6e1ef72e4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{generatedUserOrg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="374" y="20" width="181" height="20" backcolor="#D2FFE5" uuid="cee50ac1-ebd8-46f1-816b-c7cc587328fd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{generatedEndTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="100" y="0" width="170" height="20" backcolor="#D2FFE5" uuid="c5e5178d-323d-47d5-ac52-9f3807306d88"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{generatedUser}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="374" y="40" width="181" height="20" backcolor="#D2FFE5" uuid="4e98ec6a-88c6-4813-9ac1-b69a68ea45ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{status}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="100" y="80" width="170" height="20" backcolor="#D2FFE5" uuid="d527cebb-9b2a-4f09-b6d6-5bab47be2897"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organizationName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#D2FFE5" uuid="0688219f-5cdc-483c-8b56-769920b00601"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{generatedByUser}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="20" width="100" height="20" backcolor="#D2FFE5" uuid="3c635da1-fb8c-47a5-a266-5914c7d62304"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{generatedUserOrg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="40" width="100" height="20" backcolor="#D2FFE5" uuid="da3d6a28-d462-453c-9b32-aa86aa67e946"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{startDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="60" width="100" height="20" backcolor="#D2FFE5" uuid="718a1a47-8750-4235-9a69-7e9a33a5fef8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{endDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="80" width="100" height="20" backcolor="#D2FFE5" uuid="49e2baa0-a6a2-47a4-bb6a-8e32f3fe962c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{organization}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="274" y="0" width="100" height="20" backcolor="#D2FFE5" uuid="4dce585f-4a42-4db6-86ed-9853d2e65414"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{reportStartTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="274" y="20" width="100" height="20" backcolor="#D2FFE5" uuid="57c7cae0-6f60-43cb-8a74-07c29ae3edcb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{reportEndTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="274" y="40" width="100" height="20" backcolor="#D2FFE5" uuid="8b3a0fe1-6f3d-48a9-8691-6bc4f7d2ea67"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="40" width="554" height="1" forecolor="#CCCCCC" uuid="a796ea41-fb12-4db5-8371-3b77e9060128"/>
+			</line>
+			<textField>
+				<reportElement x="182" y="0" width="90" height="20" uuid="83a8cdcc-0701-427b-87e5-8b821574d1c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{issuedDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="0" width="90" height="20" uuid="f6cffb2b-f647-4baf-90a4-c2ae465d2477"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{username}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="90" height="20" uuid="c7599126-990a-4cec-97ab-f02568e8449e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="20" width="90" height="20" uuid="67ac3257-7d61-47ae-9197-1047450fa285"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{deviceType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="20" width="90" height="20" uuid="c51ac5d1-ef1c-44aa-8865-acac4438294b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{deviceCardType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="182" y="20" width="90" height="20" uuid="9e562d79-f78a-4ab6-9e31-a2ff1214cf87"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{uniqueIdentifier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="0" width="90" height="20" uuid="f0fa0253-4ade-4c79-8854-d5e71af4e16d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{issuanceStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="452" y="0" width="90" height="20" uuid="54943dcf-8825-4daf-8795-618618036b07"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{reason}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="272" y="0" width="90" height="20" uuid="30bd3971-1b85-4314-bda8-2671fb755eb5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{issuedBy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="20" width="90" height="20" uuid="1bcced8d-fb6c-4f8c-b94e-cf4bd69d220f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{deviceIssued}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="20" width="90" height="20" uuid="2a6ffa1c-82ad-41e8-9fdd-bd5a47063f9f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="360" y="0" width="90" height="20" uuid="55fb3d1a-bc55-4d61-bd46-8292cef8b0c0"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuedStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="0" width="90" height="20" uuid="5b6da999-1cac-484e-9872-b986e92d1f76"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuedBy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="90" height="20" uuid="6b90d029-38a6-4a8c-a9be-c6a22c08b536"/>
+				<textElement>
+					<font size="4"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuedStatusReason}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="90" height="20" uuid="60b7af97-3ec8-49e8-8434-b23111d37bac"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issuedDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="0" y="0" width="90" height="20" uuid="ee7e49d9-ba61-49e5-b79a-0a5371fc0d3b"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="90" y="0" width="90" height="20" uuid="ac9fb554-d0f9-4235-a02f-894f8e038ab0"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="40" width="554" height="1" forecolor="#CCCCCC" uuid="894f9896-6a79-4086-bc85-f84c2e1fc425"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="20" width="90" height="20" uuid="4fb5b3d4-fcb9-43ff-94c0-a1a48b65df4b"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="20" width="90" height="20" uuid="ca6df353-ff19-4d30-a3ff-beb0fa4c728f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deviceIssuedName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="20" width="90" height="20" uuid="243c7024-6964-48ab-8fa3-c2d192dc8775"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uniqueIdentifier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="20" width="90" height="20" uuid="d28d85ae-fde2-4636-bc44-d65345ec15fb"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="20" width="90" height="20" uuid="f55d9b9f-10d3-4ea8-a612-43cfd806028b"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="433" height="20" uuid="a16474ed-bf66-4d87-ba86-8103924118fc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$R{copyright}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="80" height="20" uuid="b17f1b4d-ecf2-4dfb-b25d-3fe8064a8b92"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="0" width="40" height="20" uuid="64f6c4c9-7c8a-469b-86b7-a640e1c8436a"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

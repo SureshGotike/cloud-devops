@@ -1,0 +1,11 @@
+version: '3'
+services:
+  configserver:
+    image: myidentity/myidentity_images:configserver_latest_${branch}
+    container_name: configserver
+    environment:
+        - SPRING_PROFILES_ACTIVE=native
+    volumes:
+        - /home/ec2-user/uridentity/mt/configrepo/localrepo:/home/ec2-user/uridentity/mt/configrepo/localrepo
+    ports:
+        - 8888:8888

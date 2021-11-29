@@ -1,0 +1,18 @@
+version: '3'
+services:
+  apdu:
+    image: myidentity/myidentity_images:apdu_latest_${branch}
+    container_name: apdu
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,swagger
+        - SPRING_CLOUD_CONSUL_HOST=consul
+        - SPRING_CLOUD_CONSUL_PORT=8500
+        - SPRING_DATASOURCE_URL=jdbc:mariadb://database-dev.myidentity.net:3306/apdu
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=trust@myadmin123
+#        - SPRING_ZIPKIN_BASE_URL=http://35.171.82.245:9411/
+        - SPRING_SLEUTH_SAMPLER_PERCENTAGE=1.0
+#        - SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0
+        - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+    ports:
+        - 10004:10004

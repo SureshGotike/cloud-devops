@@ -1,0 +1,23 @@
+version: '3'
+services:
+  usermanagement:
+    image: uridentity/uridentity_images:usermanagement_latest
+    container_name: usermanagement
+    environment:
+        - SPRING_PROFILES_ACTIVE=dev,swagger
+        - SPRING_CLOUD_CONSUL_HOST=consul
+        - SPRING_CLOUD_CONSUL_PORT=8500
+        - SPRING_CLOUD_CONFIG_URI=http://configserver-dev.myidentity.net
+        - SPRING_CLOUD_CONFIG_ENABLED=true
+        - SPRING_CLOUD_CONFIG_FAILFAST=true
+        - SPRING_DATASOURCE_URL=jdbc:mariadb://database-dev.myidentity.net:3306/usermanagement
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=trust@myadmin123
+#        - SPRING_ZIPKIN_BASE_URL=http://35.171.82.245:9411/
+        - SPRING_SLEUTH_SAMPLER_PERCENTAGE=1.0
+#        - SPRING_SLEUTH_SAMPLER_PROBABILITY=1.0
+        - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+    ports:
+        - 10003:10003
+#    volumes:
+#        - /var/lib/docker/volumes/data-volume/
